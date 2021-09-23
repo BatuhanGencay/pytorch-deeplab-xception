@@ -1,4 +1,4 @@
-from dataloaders.datasets import cityscapes, coco, combine_dbs, pascal, sbd
+from dataloaders.datasets import cityscapes, coco, combine_dbs, pascal, sbd, rice
 from torch.utils.data import DataLoader
 
 def make_data_loader(args, **kwargs):
@@ -18,8 +18,8 @@ def make_data_loader(args, **kwargs):
         return train_loader, val_loader, test_loader, num_class
 
     if args.dataset == 'rice':
-        train_set = pascal.RiceSegmentation(args, split='train')
-        val_set = pascal.RiceSegmentation(args, split='val')
+        train_set = rice.RiceSegmentation(args, split='train')
+        val_set = rice.RiceSegmentation(args, split='val')
 
         num_class = train_set.NUM_CLASSES
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)

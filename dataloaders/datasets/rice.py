@@ -10,22 +10,22 @@ from dataloaders import custom_transforms as tr
 class RiceSegmentation(Dataset):
 
     NUM_CLASSES = 4
-    TOTAL_SAMPLES = 736
+    
     def __init__(self,
                  args,
-                 base_dir=Path.db_root_dir(),
+                 base_dir=Path.db_root_dir('rice'),
                  split='train',
                  ):
         super().__init__()
         self._base_dir = base_dir
         self._image_dir = os.path.join(self._base_dir, 'label')
         self._mask_dir = os.path.join(self._base_dir, 'mask')
-
+        self.TOTAL_SAMPLES = 736
         self.args = args
 
-        split_index = TOTAL_SAMPLES//5
+        split_index = self.TOTAL_SAMPLES//5
 
-        if self.split = 'train':
+        if split == 'train':
             self.images = os.listdir(self._image_dir)[split_index:]
             self.masks = os.listdir(self._mask_dir)[split_index:]
         else:
