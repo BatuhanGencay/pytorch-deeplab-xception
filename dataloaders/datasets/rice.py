@@ -22,7 +22,7 @@ class RiceSegmentation(Dataset):
         self._mask_dir = os.path.join(self._base_dir, 'mask')
         self.TOTAL_SAMPLES = 736
         self.args = args
-
+        self.split = split
         split_index = self.TOTAL_SAMPLES//5
 
         if split == 'train':
@@ -44,18 +44,19 @@ class RiceSegmentation(Dataset):
         _img, _target = self._make_img_gt_point_pair(index)
         sample = {'image': _img, 'label': _target}
 
-        for split in self.split:
-            if split == "train":
-                return self.transform_tr(sample)
-            elif split == 'val':
-                return self.transform_val(sample)
+        if self.split == "train":           
+            return self.transform_tr(sample)
+        elif self.split == 'val':
+            return self.transform_val(sample)
 
 
     def _make_img_gt_point_pair(self, index):
-        _img = Image.open(self.images[index]).convert('RGB')
-        _target = Image.open(self.masks[index])
-
-        return _img, _target
+        _img = Image.open(self._image_dir + '/'+ self.images[index]).convert('RGB')
+        _target = Image.open(self._mask_dir + '/' +self.masks[index])
+        img_np = np.array(_target)
+        mask = np.sum(img_np,2)/255
+        # print(mask.shape)
+        return _img, Image.fromarray(mask)
 
     def transform_tr(self, sample):
         composed_transforms = transforms.Compose([

@@ -27,6 +27,15 @@ def decode_segmap(label_mask, dataset, plot=False):
     elif dataset == 'cityscapes':
         n_classes = 19
         label_colours = get_cityscapes_labels()
+    elif dataset == 'rice':
+        n_classes = 4
+        label_colours = np.array([
+            [0,0,0],
+            [0,0,255],
+            [0,255,255],
+            [255,255,255]
+        ])
+
     else:
         raise NotImplementedError
 
